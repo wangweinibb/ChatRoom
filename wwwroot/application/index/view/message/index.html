@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>不良人聊天室</title>
+	<link rel="icon" type="image/x-icon" href="/static/images/a.jpg">
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+	<style>
+		body {
+			background: black;
+			color: green;
+			font-family: monospace;
+			font-size: 16px;
+		}
+
+		.container {
+			margin-top: -16px;
+			background-color: #000;
+			box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+			border-radius: 5px;
+			padding: 0px;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			height: 100vh;
+		}
+
+		.panel-default {
+			border-color: #0f0;
+		}
+
+		.panel-heading {
+			background-color: #000;
+			border-color: #0f0;
+			color: #0f0;
+		}
+
+		.panel-title {
+			font-size: 20px;
+			font-weight: bold;
+		}
+
+		.chat-list {
+			list-style: none;
+			padding: 0;
+			margin: 0;
+			width: 700px;
+			max-height: 700px;
+			overflow-y: auto;
+			color: #27ff27;
+		}
+
+		.chat-list li {
+			padding: 10px;
+			margin-bottom: 0px;
+			border-radius: 5px;
+			background-color: #000;
+			box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+			border: 1px solid rgb(255, 30, 0);
+		}
+
+		.chat-list li:nth-child(odd) {
+			background-color: #111;
+		}
+
+		.form-control {
+			width: 700px;
+			height: 30px;
+			border-radius: 0;
+			border-color: #0f0;
+			box-shadow: none;
+			background-color: #000;
+			color: #0f0;
+		}
+
+		.input-group-btn button {
+			border-radius: 0;
+			border-color: #0f0;
+			box-shadow: none;
+			background-color: #0f0;
+			color: #000;
+		}
+
+		.input-group-btn button:hover {
+			background-color: #0a0;
+		}
+
+		.panel-title {
+			font-size: 20px;
+			font-weight: bold;
+		}
+
+		.chat-list {
+			list-style: none;
+			padding: 0;
+			margin: 0;
+			width: 700px;
+			max-height: 700px;
+			overflow-y: auto;
+			color: #27ff27;
+		}
+
+		.chat-list li {
+			padding: 10px;
+			margin-bottom: 8px;
+			border-radius: 5px;
+			background-color: #000;
+			box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+			border: 1px solid #0f0;
+		}
+
+		.chat-list li:nth-child(odd) {
+			background-color: #111;
+		}
+
+		.form-control {
+			width: 700px;
+			height: 30px;
+			border-radius: 0;
+			border-color: #0f0;
+			box-shadow: none;
+			background-color: #000;
+			color: #0f0;
+		}
+
+		.input-group-btn button {
+			border-radius: 0;
+			border-color: #0f0;
+			box-shadow: none;
+			background-color: #0f0;
+			color: #000;
+		}
+
+		.input-group-btn button:hover {
+			background-color: #0a0;
+		}
+
+		.chat-list::-webkit-scrollbar {
+			width: 10px;
+		}
+
+		.chat-list::-webkit-scrollbar-track {
+			background: #000;
+		}
+
+		.chat-list::-webkit-scrollbar-thumb {
+			background-color: #0f0;
+			border-radius: 20px;
+			border: 3px solid #000;
+		}
+
+		.biao {
+			width: 200px;
+			height: 700px;
+			border: 1px solid green;
+			margin-right: 80px;
+			position: relative;
+		}
+
+		.biao h3 {
+			color: #0f0;
+			margin-top: 5px;
+			margin-left: 25%;
+		}
+
+		.biao ul {
+			height: 600px;
+			list-style: none;
+			color: green;
+			overflow-y: scroll;
+			max-height: 700px;
+		}
+
+		.biao ul::-webkit-scrollbar {
+			width: 8px;
+		}
+
+		.biao ul::-webkit-scrollbar-track {
+			background: #000;
+		}
+
+		.biao ul::-webkit-scrollbar-thumb {
+			background-color: #0f0;
+			border-radius: 20px;
+			border: 3px solid #000;
+		}
+		#xianshi{
+			position: relative;
+			margin-right: 200px;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="container">
+		<div class="biao">
+			<h3>不良人列表</h3>
+			<ul id="ull">
+			</ul>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<h3 class="text-center" style="color: #0f0; font-weight: bold; text-shadow:
+						2px and 2px #ddd;">欢迎 不良人 "{$data.name}" 驾到! <a href="/static/chatgpt.exe" style="color: #0f0;" download>视频聊天</a>
+					<button style="margin-left: 100px;cursor: pointer;" id="saoma">微信刷步数</button>
+				</h3>
+				<h3>
+					<marquee behavior="scroll" direction="left">
+						版权:不良帅&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;不良帅vx:iamaverygreathero&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;一天是不良，一辈子都是!
+					</marquee>
+				</h3>
+				<hr>
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title" style="color: #0f0; font-weight: bold;">不顺我心!</h3>
+					</div>
+					<div class="panel-body">
+						<ul class="chat-list" id="chat-list"></ul>
+					</div>
+					<div class="panel panel-default">
+						<div class="panel-footer">
+							<div class="input-group">
+								<input type="text" class="form-control" id="send" placeholder="Enter
+										message here..." style="border-color: green;">
+								<span class="input-group-btn">
+									<button class="btn btn-default" id="btn" onclick="fasong()" type="button" style="height:30px;background-color: #0f0; color: #000;
+											border-color:
+											#0f0;">Send</button>
+									<!-- 发送图片 -->
+									<form id="imgForm">
+										<input type="file" id="fileInput" accept="image/*" name="img"
+											style="display:none">
+									</form>
+									<button onclick="document.getElementById('fileInput').click();"
+										style="height:30px;background-color: #0f0; color: #000;">选择文件</button>
+								</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div style="width: 200px;display: none;" id="xianshi">
+			<h3 id="X" style="color: red;cursor: pointer;margin-left: 10px;">
+				扫码绑定公众号&nbsp;&nbsp;&nbsp;&nbsp;X</h3>
+			<img src="/static/images/bushu.jpg" style="width: 200px;margin-top: -15px;">
+			<input placeholder="请输入步数" type="number" id="bushu">
+			<button style="margin-left:60px;cursor: pointer;" id="queren">确认刷入</button>
+		</div>
+		<script src="/static/js/left.js"></script>
+		<script src="/static/js/right.js"></script>
+		<script>
+			$(document).ready(function () {
+				$(".chat-list").scrollTop($(".chat-list")[0].scrollHeight);
+			});
+			//随机颜色数组
+			var colors = ["red", "#df3cd2", "#ed2292", "orange", "#b76500", "#b7c11e", "yellow", "green", "#1bf31b", "#1bf37b", "blue", "#05a0fb", "purple", "#f300f3", "#9600f3", "#d9f6ff", "white"];
+			var color = colors[Math.floor(Math.random() * colors.length)];
+			//发送消息请求
+			function Sendmessage() {
+				var xhr = new XMLHttpRequest();
+				xhr.open('POST', '/index/Message/chat', true);
+				xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+				var currentDate = new Date();
+				var currentTime = currentDate.getFullYear() + "-" + (currentDate.getMonth() + 1) + "-" + currentDate.getDate() + " " + currentDate.getHours() + ":" + currentDate.getMinutes() + ":" + currentDate.getSeconds();
+				xhr.send('message=' + send.value + '&currentTime=' + currentTime + '&color=' + color);
+			}
+			//发送图片
+			$("#fileInput").change(function () {
+				var currentDate = new Date();
+				var currentTime = currentDate.getFullYear() + "-" + (currentDate.getMonth() + 1) + "-" + currentDate.getDate() + " " + currentDate.getHours() + ":" + currentDate.getMinutes() + ":" + currentDate.getSeconds();
+				var formData = new FormData($("#imgForm")[0]);
+				formData.append('color', color);
+				formData.append('currentTime', currentTime);
+				$.ajax({
+					url: "/index/Message/img",
+					type: "POST",
+					data: formData,
+					processData: false,
+					contentType: false,
+					success: function (data) {
+						if (data.code == 200) {
+							$(".chat-list").scrollTop($(".chat-list")[0].scrollHeight);
+						} else {
+							alert(data.msg);
+						}
+					},
+					error: function () {
+						alert("上传失败");
+					}
+				});
+			});
+			var saoma = document.getElementById("saoma")
+			var X = document.getElementById("X")
+			var xianshi = document.getElementById("xianshi")
+			var bushu = document.getElementById("bushu")
+			var queren = document.getElementById("queren")
+			saoma.onclick = function () {
+				xianshi.style.display = "block";
+			}
+			X.onclick = function () {
+				xianshi.style.display = "none";
+				bushu.value = ""
+			}
+			$("#queren").click(function () {
+				$.ajax({
+					url: "/index/Message/ShuaBuShu",
+					type: "POST",
+					data: {
+						user: "15586478918@qq.com",
+						password: "wonendie123",
+						step: bushu.value
+					},
+					success: function (data) {
+						var newData = data.substring(data.length - 10, data.length - 3);
+						alert(newData);
+					},
+					error: function () {
+						alert("请求失败");
+					}
+				});
+			});
+
+
+		</script>
+</body>
+
+</html>

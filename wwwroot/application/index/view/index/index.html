@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>登陆</title>
+	<link rel="icon" href="/static/images/a.jpg">
+	<style>
+		/* Style for login and register forms */
+		body {
+			background: black;
+			background-size: 100%, 100%;
+		}
+
+		form {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			margin-top: 50px;
+		}
+
+		input[type="text"],
+		input[type="password"] {
+			width: 300px;
+			height: 30px;
+			margin-bottom: 20px;
+			padding-left: 10px;
+			border-radius: 5px;
+			border: none;
+			box-shadow: 0px 0px 5px #888888;
+		}
+
+		input[type="submit"] {
+			width: 100px;
+			height: 30px;
+			background-color: #4CAF50;
+			color: white;
+			border: none;
+			border-radius: 5px;
+			cursor: pointer;
+		}
+
+		input[type="submit"]:hover {
+			background-color: #3e8e41;
+		}
+
+		/* Style for the container */
+		.container {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			margin-top: 100px;
+		}
+
+		h1 {
+			font-size: 36px;
+			margin-bottom: 50px;
+		}
+
+		/* Style for the switch button */
+		.switch {
+			display: inline-block;
+			height: 34px;
+			position: relative;
+			width: 60px;
+		}
+
+		.switch input {
+			display: none;
+		}
+
+		.slider {
+			background-color: #ccc;
+			bottom: 0;
+			cursor: pointer;
+			left: 0;
+			position: absolute;
+			right: 0;
+			top: 0;
+			transition: .4s;
+		}
+
+		.slider:before {
+			background-color: #fff;
+			bottom: 4px;
+			content: "";
+			height: 26px;
+			left: 4px;
+			position: absolute;
+			transition: .4s;
+			width: 26px;
+		}
+
+		input:checked+.slider {
+			background-color: red;
+		}
+
+		input:checked+.slider:before {
+			transform: translateX(26px);
+		}
+
+		/* Style for the register link */
+		.register-link {
+			margin-top: 20px;
+			font-size: 14px;
+			color: #4CAF50;
+			text-decoration: none;
+		}
+
+		.register-link:hover {
+			text-decoration: underline;
+		}
+
+		#login-form {
+			position: relative;
+		}
+
+		#one {
+			position: absolute;
+			left: 0;
+			right: 0;
+			margin: 120px auto;
+		}
+
+		#lregister-form {
+			position: relative;
+		}
+
+		#two {
+			position: absolute;
+			left: 0;
+			right: 0;
+			margin: 120px auto;
+		}
+
+		#dys {
+			width: 360px;
+			height: 240px;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="container">
+		<img src="/static/images/images.png" alt="" id="dys">
+		<div class="switch">
+			<input type="checkbox" id="switch" name="mode">
+			<label class="slider" for="switch"></label>
+		</div>
+		<form id="login-form" style="display: none;">
+			<input type="text" id="username" name="username" placeholder="请输入昵称...">
+			<br>
+			<input type="password" id="password" name="password" placeholder="请输入密码...">
+			<br>
+			<input type="submit" value="登陆" id="one" style="background: red;">
+		</form>
+		<form id="register-form" style="display: none;">
+			<input type="text" id="new-username" name="new-username" placeholder="请新建昵称...">
+			<br>
+			<input type="password" id="new-password" name="new-password" placeholder="请新建密码..">
+			<br>
+			<input type="submit" value="注册" id="two" style="background: red;">
+		</form>
+	</div>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script>
+		$(document).ready(function () {
+			const switchButton = $("#switch");
+			const loginForm = $("#login-form");
+			const registerForm = $("#register-form");
+			const btn = $("#btn");
+			switchButton.on("change", () => {
+				if (switchButton.prop("checked")) {
+					loginForm.show();
+					registerForm.hide();
+				} else {
+					loginForm.hide();
+					registerForm.show();
+				}
+			});
+
+			// 登陆发送ajax请求
+			loginForm.on("submit", (event) => {
+				event.preventDefault();
+				const formData = new FormData(loginForm[0]);
+				$.ajax({
+					url: "index/Login/doLogin", // Updated URL
+					type: "POST",
+					data: formData,
+					processData: false,
+					contentType: false,
+					success: function (response) {
+						var data = JSON.parse(response);
+						if (data.code === "200") {
+							alert("登陆成功!")
+							$("#username").val("");
+							$("#password").val("");
+							window.location.href="index/Message/message"
+						} else{
+							alert(data.message); // 显示错误提示信息
+						}
+					},
+					error: function (response) {
+						alert("请求错误!");
+						$("#username").val("");
+						$("#password").val("");
+					}
+				});
+			});
+			//注册发送ajax请求
+			registerForm.on("submit", (event) => {
+				event.preventDefault();
+				const formData = new FormData(registerForm[0]);
+				$.ajax({
+					url: "index/Login/doRegister", // Updated URL
+					type: "POST",
+					data: formData,
+					processData: false,
+					contentType: false,
+					success: function (response) {
+						var data = JSON.parse(response);
+						if (data.code === "200") {
+							alert(data.message)
+							$("#new-username").val("");
+							$("#new-password").val("");
+						} else{
+							alert(data.message); // 显示错误提示信息
+						}
+					},
+					error: function (response) {
+						alert("请求错误!");
+						$("#new-username").val("");
+						$("#new-password").val("");
+					}
+				});
+			});
+			registerForm.on("submit", (event) => {
+				event.preventDefault();
+			});
+		});
+	</script>
+</body>
+
+</html>
